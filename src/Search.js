@@ -12,6 +12,11 @@ class Search extends Component {
         searchBooks: []
     }
 
+    onBookShelfChange = (book,shelf) =>{
+        this.props.onBookShelfChange(book,shelf);
+        this.setState((state) => ({ searchBooks: [ ...state.searchBooks.filter(item => item.id !== book.id),{...book,shelf}]}));
+    }
+
     onSearch = (filter) => {
         if (filter === '') {
             this.setState({ searchBooks: [] });
@@ -21,8 +26,8 @@ class Search extends Component {
                 if (item != null) {
                     if (item.error == null) {
                         allBooks = item.map((book) => {
-                            let temp = this.props.books.filter(x => x.id == book.id)
-                            if (temp.length == 0) {
+                            let temp = this.props.books.filter(x => x.id === book.id)
+                            if (temp.length === 0) {
                                 return book;
                             } else {
                                 return temp[0];
@@ -34,6 +39,8 @@ class Search extends Component {
             })
         }
     }
+
+
 
     static propTypes = {
         books: PropTypes.array.isRequired,
@@ -67,7 +74,7 @@ class Search extends Component {
                             <li key={book.id}>
 
                                 <Book
-                                    onBookShelfChange={this.props.onBookShelfChange}
+                                    onBookShelfChange={this.onBookShelfChange}
                                     book={book} />
 
                             </li>

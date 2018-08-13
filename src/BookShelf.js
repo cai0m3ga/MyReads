@@ -13,10 +13,6 @@ class BookShelf extends Component {
         onBookShelfChange: PropTypes.func.isRequired
     }
 
-    state = {
-        books: ''
-    }
-
     render() {
 
         let orderedBooks = this.props.books.sort(sortBy('title'))
@@ -39,6 +35,7 @@ class BookShelf extends Component {
                     </ol>
                 </div>
             </div>
+            
         )
     }
 

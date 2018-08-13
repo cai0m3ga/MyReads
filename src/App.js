@@ -20,18 +20,10 @@ class BooksApp extends React.Component {
   }
 
   bookShelfChange = (book, shelf) => {
+
     BooksAPI.update(book,shelf);
-    let prevState = {...this.state};
-    let prevBook = prevState.books.find(item => item.id === book.id);
-    if ( prevBook == null){
-      book.shelf = shelf;
-      prevState.books.push(book);
-    }else{
-      prevBook.shelf = shelf;
-    }
-    this.setState({        
-      books: prevState.books
-    })
+    this.setState((state) => ({ books: [ ...state.books.filter(item => item.id !== book.id),{...book,shelf}]}));
+
   }
 
   render() {
@@ -49,17 +41,17 @@ class BooksApp extends React.Component {
               <BookShelf 
                       onBookShelfChange={this.bookShelfChange}
                       bookShelfTittle="Currently Reading"
-                      books={this.state.books.filter((book) => book.shelf == "currentlyReading")} />
+                      books={this.state.books.filter((book) => book.shelf === "currentlyReading")} />
 
               <BookShelf 
                       onBookShelfChange={this.bookShelfChange}
                       bookShelfTittle="Want to Read"
-                      books={this.state.books.filter((book) => book.shelf == "wantToRead")} />
+                      books={this.state.books.filter((book) => book.shelf === "wantToRead")} />
 
               <BookShelf 
                       onBookShelfChange={this.bookShelfChange}
                       bookShelfTittle="Read"
-                      books={this.state.books.filter((book) => book.shelf == "read")} />
+                      books={this.state.books.filter((book) => book.shelf === "read")} />
 
             </div>
           </div>
